@@ -11,18 +11,13 @@
                   :ganttData="ganttData"></gantt-body>
 
       <div style="position:fixed; bottom:5%; right:0; z-index:10">
-        <v-btn
-          absolute
-          dark
-          fab
-          top
-          right
-          color="deep-orange darken-2"
-          slot="activator"
+        <el-button
+          circle
+          type="danger"
           @click="backToPre"
         >
           <i class="material-icons">chevron_left</i>
-        </v-btn>
+        </el-button>
       </div>
 
     </div>

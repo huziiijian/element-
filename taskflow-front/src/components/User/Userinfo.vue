@@ -2,7 +2,6 @@
 	<el-container class="userInfo">
 		<el-form>
 			<el-card>
-				<el-card>
 					<el-container>
 						<el-header>
 							<h2>用户信息</h2></el-header>
@@ -51,7 +50,6 @@
 							</el-row>
 						</el-footer>
 					</el-container>
-				</el-card>
 			</el-card>
 		</el-form>
 	</el-container>

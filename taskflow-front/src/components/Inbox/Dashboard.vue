@@ -2,20 +2,22 @@
   <div>
     <div :class="className" :id="id" :style="{height:height,width:width}"></div>
     <div>
-      <v-layout align-center row wrap>
-        <v-flex xs4>
-          <v-btn>TODO :{{result.seriesData[0].value}}</v-btn>
-        </v-flex>
-        <v-flex xs4>
-          <v-btn>PROGRESS :{{result.seriesData[1].value}}</v-btn>
-        </v-flex>
-        <v-flex xs4>
-          <v-btn>DONE :{{result.seriesData[2].value}}</v-btn>
-        </v-flex>
-        <v-flex xs12 text-xs-center>
-          <v-btn block color="error" style="width:90%">Delay in progress:{{delay}}</v-btn>
-        </v-flex>
-      </v-layout>
+      <el-row style="margin-bottom: 20px;left:6px">
+        <el-col span="8">
+          <el-button style="box-shadow:2px 2px 10px #909090">还未做 :{{result.seriesData[0].value}}</el-button>
+        </el-col>
+        <el-col span="9">
+          <el-button style="box-shadow:2px 2px 10px #909090">正在进行中 :{{result.seriesData[1].value}}</el-button>
+        </el-col>
+        <el-col span="7">
+          <el-button style="box-shadow:2px 2px 10px #909090">已完成 :{{result.seriesData[2].value}}</el-button>
+        </el-col>
+        </el-row>
+        <el-row>
+        <el-col span="22">
+          <el-button type="danger" style="width:100%">时间延期项目:{{delay}}</el-button>
+        </el-col>
+      </el-row>
     </div>
   </div>
 

@@ -69,24 +69,26 @@
     clipped-left
     fixed
   >
-    <v-toolbar-title :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'" class="ml-0 pl-3">
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <span class="hidden-xs-only">Project Kanban</span>
-    </v-toolbar-title>
+    <!--<v-toolbar-title :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'" class="ml-0 pl-3">-->
+      <!--<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
+      <el-button type="primary"  circle>
+      <i class="material-icons" @click.stop="drawer = !drawer">
+        calendar_view_day
+      </i></el-button>&nbsp
+      <h1>Project Kanban</h1>
+    <!--</v-toolbar-title>-->
 
     <div class="d-flex align-center" style="margin-left: auto">
       <!--<v-btn icon>-->
         <!--<v-icon>apps</v-icon>-->
       <!--</v-btn>-->
 
-      <v-btn icon @click="jumpToHome">
-        <v-badge color="red"
-                 left
-                 style="background-color: rgba(0,0,0,0)">
+      <el-button @click="jumpToHome" circle type="primary">
+      	<i class="el-icon-bell" style="transform:scale(1.5);width:30px">
+        <el-badge color="red" left style="background-color: rgba(0,0,0,0)">
           <span slot="badge" v-if="noti_num!=0">{{noti_num}}</span>
-          <v-icon>notifications</v-icon>
-        </v-badge>
-      </v-btn>
+        </el-badge></i>
+      </el-button>
       <!--<v-btn icon large @click="">-->
         <!--<v-avatar size="32px" tile>-->
           <!--<img-->
@@ -185,4 +187,9 @@
   *{
     /*vertical-align: middle;*/
   }
+  .el-button--primary {
+    color: #fff;
+    background-color: #0277BD;
+    border-color: #0277BD;
+}
 </style>

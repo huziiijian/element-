@@ -10,7 +10,8 @@
 						<td>
 							<span style="font-size: 16px">
                                 <router-link :to="`/projects/${props.item._id}`">
-                                    <i class="material-icons">folder</i>{{ props.item.name }}
+                                    <i class="material-icons">folder</i>
+                                    {{ props.item.name }}
                                 </router-link>
                             </span>&nbsp
 							<el-tag type="success" v-if="props.item.startDate!=''">
@@ -36,7 +37,7 @@
 						<el-table-column label="项目名称" width="180">
 							<template slot-scope="scope">
 							
-                                    <i class="material-icons">folder</i>{{ scope.name }}
+                                    <i class="material-icons">folder</i> <span style="margin-left: 10px">{{ scope.row.date }}</span>{{ scope.name }}
                             
 							</template>
 						</el-table-column>
@@ -50,35 +51,35 @@
 				</template>-->
 				</div>
 				<div class="text-xs-center pt-2">
-					<el-pagination background layout="prev, pager, next" :total="100">
+					<el-pagination background layout="prev, pager, next" :page-size="20" :total="items.length">
 					</el-pagination>
 				</div>
 				<el-dialog :visible.sync="dialog" max-width="500px" title="创建新项目">
 					<el-row>
 						<el-col :span="16">
-							<p>请输入您的姓名：</p>
-							<el-input placeholder="*您的姓名" label="Project Name" v-model="project.name" required/>
+							<p>项目名称：</p>
+							<el-input placeholder="*项目名称" label="Project Name" v-model="project.name" required/>
 						</el-col>
 						<el-col :span="16"><br>
-							<p>请输入您的密码：</p>
-							<el-input placeholder="*您的密码" label="Project Code" v-model="project.code" required/>
+							<p>项目代码：</p>
+							<el-input placeholder="*项目代码" label="Project Code" v-model="project.code" required/>
 						</el-col>
 						<el-col span="16"><br>
-							<p>请输入您的客户：</p>
-							<el-input placeholder="您的客户" v-model="project.client" persistent-hint required/>
+							<p>客户名称：</p>
+							<el-input placeholder="客户名称" v-model="project.client" persistent-hint required/>
 						</el-col>
 						<el-col span="16"><br>
-							<p>请输入您的姓名：</p>
-							<el-input placeholder="您的姓名" v-model="project.partNumber" multi-line required/>
+							<p>零件号：</p>
+							<el-input placeholder="零件号" v-model="project.partNumber" multi-line required/>
 						</el-col>
 					</el-row>
 					<small>*为必填字段</small>
 					<el-row type="flex" class="row-bg" justify="space-around" style="margin-top: 20px">
 						<el-col :span="10">
-							<el-button type="primary" @click.stop="createProject">保存</el-button>
-						</el-col>
-						<el-col :span="5">
 							<el-button type="info" @click.stop="closeCreate">关闭</el-button>
+						</el-col>
+						<el-col :span="4">
+							<el-button type="primary" @click.stop="createProject">保存</el-button>
 						</el-col>
 					</el-row>
 				</el-dialog>
@@ -192,10 +193,12 @@
       created(){
         this.myInfo();
         this.getUsers();
+        
+        
       },
       mounted() {
         this.fetchData();
-        
+        console.log(items);
       },
 
       methods:{

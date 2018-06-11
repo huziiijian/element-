@@ -1,103 +1,58 @@
 <template>
-  <v-container fluid>
-    <div style="position:fixed; bottom:5%; right:0; z-index:10">
-      <el-button type="danger" circle @click="enterGantt">
-        <i class="material-icons">timeline</i>
-      </el-button>
-    </div>
-
-    <v-layout row>
-      <el-col span="5">
-        <el-row>
-          <el-col :span="12">
-            <el-button type="primary"
-                    @click="showAll">显示所有</el-button>
-          </el-col>
-          <el-col :span="12">
-            <el-button type="primary"
-                    @click="showMine">只看我的</el-button>
-          </el-col>
-          <el-col :span="22" style="overflow: scroll">
-            <tree
-              @click="onClick"
-              :model="treelist"
-              :blocks="blocks"
-              :myInformation="myInformation"
-              @refresh="fetchData"
-            ></tree>
-          </el-col >
-        </el-row>
-      </el-col>
-      <v-flex xs10>
-        <v-container fluid>
-          <v-layout row wrap>
-					<el-header>
-						<el-input label="Search" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="search" style="right:20px;position:absolute;width:25%">
-						</el-input>
-					</el-header>
-            <v-flex xs12>
-              <kanban :stages="statuses" :blocks="filterLists" @update-block="updateBlock">
-                <v-card
-                  v-for="item in blocks"
-                  :slot="item.reference_id"
-                  :key="item.reference_id"
-                  style="height:inherit"
-                  :class="[dueDate(item.dueDate,item.status),notMine(item.owner)]">
-
-                    <!--<v-card-title primary-title>-->
-                    <el-card >
-                      <div class="header">
-                        <h4>{{item.name}}</h4>
-                        <div v-if="item.startDate"><span>Start:{{item.startDate}}</span></div>
-                        <div v-if="item.dueDate"><span>Due:{{item.dueDate}}</span></div>
-                      </div></el-card>
-                    <!--</v-card-title>-->
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                      <v-avatar
-                        slot="activator"
-                        color="teal"
-                        size="36px"
-                      >
-                        <img
-                          v-if="owner_Avatar(item.owner)!= false"
-                          :src="owner_Avatar(item.owner)"
-                          alt=""
-                        >
-                        <v-icon dark v-else>account_circle</v-icon>
-                      </v-avatar>
-
-<el-button icon="el-icon-info" circle @click="editItem(item)" style="border:0">
-
-</el-button>
-
-                  </v-card-actions>
-                </v-card>
-                <v-divider/>
-              </kanban>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-flex>
-    </v-layout>
-
-    <v-dialog v-model="editedShow"
-              fullscreen
-              hide-overlay
-              transition="dialog-bottom-transition"
-              scrollable class="editDialog">
-      <card ref="card"
-            target="task"
-            :editedItem = "editedItem"
-            :editedShow = "editedShow"
-            :users="users"
-            :myInformation="myInformation"
-            v-on:changeShow="closeDialog"
-            @refreshData="fetchData"></card>
-
-    </v-dialog>
-  </v-container>
-
+	<el-row style="top:20px">
+		<div style="position:fixed; bottom:0; right:0; z-index:10">
+			<el-button type="danger" circle @click="enterGantt">
+				<i class="material-icons">timeline</i>
+			</el-button>
+		</div>
+		<el-row>
+			<el-col span="5">
+				<el-row>
+					<el-col :span="12">
+						<el-button type="primary" @click="showAll">显示所有</el-button>
+					</el-col>
+					<el-col :span="12">
+						<el-button type="primary" @click="showMine">只看我的</el-button>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="22" style="overflow: scroll">
+						<tree @click="onClick" :model="treelist" :blocks="blocks" :myInformation="myInformation" @refresh="fetchData"></tree>
+					</el-col>
+				</el-row>
+			</el-col>
+			<el-col :span="19">
+			<el-container>
+				<el-header>
+					<el-input label="Search" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="search" style="width:25%">
+					</el-input>
+				</el-header>
+				<el-main style="padding-top:0">
+					<kanban :stages="statuses" :blocks="filterLists" @update-block="updateBlock">
+						<el-card v-for="item in blocks" :slot="item.reference_id" :key="item.reference_id"  :class="[dueDate(item.dueDate,item.status),notMine(item.owner)]">
+							<div class="header">
+								<h3>{{item.name}}</h3>
+								<div v-if="item.startDate"><span>Start:{{item.startDate}}</span></div>
+								<div v-if="item.dueDate"><span>Due:{{item.dueDate}}</span></div>
+							</div>
+							<div style="position:absolute;left:120px;height:45px;bottom:5px">
+								<img style="display:inline-block;width:40px; height:40px;border-radius:70%" v-if="owner_Avatar(item.owner)!= false" :src="owner_Avatar(item.owner)">
+								<i v-else class="material-icons">
+                                account_circle
+                                </i>
+								<el-button icon="el-icon-info" circle @click="editItem(item)" style="border:0">
+								</el-button>
+							</div>
+						</el-card>
+					</kanban>
+				</el-main>
+			</el-container>
+			</el-col>
+		</el-row>
+		<v-dialog v-model="editedShow" fullscreen hide-overlay transition="dialog-bottom-transition" scrollable class="editDialog">
+			<card ref="card" target="task" :editedItem="editedItem" :editedShow="editedShow" :users="users" :myInformation="myInformation" v-on:changeShow="closeDialog" @refreshData="fetchData"></card>
+		</v-dialog>
+	</el-row>
 </template>
 
 <script>
@@ -585,6 +540,20 @@
   }
   }
   }
-
+  .header {
+    margin: 0px 10px 10px 10px;
+}
+section .el-button.is-circle {
+    position: relative;
+    bottom: 10px;
+}
+section .el-input {
+    left: 75%;
+}
+section .el-card__body {
+	position:relative;
+    padding: 5px;
+    min-height: 120px;
+}
 
 </style>
